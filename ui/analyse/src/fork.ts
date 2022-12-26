@@ -98,23 +98,23 @@ export function view(root: AnalyseCtrl, concealOf?: ConcealOf) {
     },
     state.node.children.map((node, it) => {
       const conceal = isMainline && concealOf!(true)(root.path + node.id, node);
-      if (!conceal)
-        return h(
-          'move',
-          {
-            class: { selected: it === state.selected },
-            attrs: { 'data-it': it },
-          },
-          renderIndexAndMove(
+      return conceal
+        ? undefined
+        : h(
+            'move',
             {
-              withDots: true,
-              showEval: root.showComputer(),
-              showGlyphs: root.showComputer(),
+              class: { selected: it === state.selected },
+              attrs: { 'data-it': it },
             },
-            node
-          )!
-        );
-      return undefined;
+            renderIndexAndMove(
+              {
+                withDots: true,
+                showEval: root.showComputer(),
+                showGlyphs: root.showComputer(),
+              },
+              node
+            )!
+          );
     })
   );
 }
